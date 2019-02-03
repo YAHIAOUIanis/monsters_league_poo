@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/functions.php';
-$monsters = getMonstersObjet();
+$monsters = getMonstersObjet_BDD();
 $firstMonsterName = isset($_POST['first_monster_name']) ? $_POST['first_monster_name'] : null;
 $secondMonsterName = isset($_POST['second_monster_name']) ? $_POST['second_monster_name'] : null;
 /**

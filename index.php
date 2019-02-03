@@ -1,7 +1,8 @@
 <?php
 require __DIR__ . '/functions.php';
-$monsters = getMonstersObjet();
+$monsters = getMonstersObjet_BDD();
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -63,6 +64,24 @@ $monsters = getMonstersObjet();
                 </tbody>
             </table>
             
+            <div class="row border p-3">
+                <div class="form-group col-md-6 offset-md-3">
+                    <form method="POST" action="index.php">
+                        <h2 class="text-center">Choose a Monster to reset Life</h2>
+                        <select class=" form-control" name="first_monster_name">
+                            <option value="">Choose a Monster to reset life</option>
+                            <?php foreach ($monsters as $key => $monster) { ?>
+                                <option value="<?php echo $key; ?>"><?php echo $monster->getName(); ?></option>
+                            <?php } ?>
+                            <?php
+                                resetLife($monsters[$_POST['first_monster_name']]->getName());                            
+                            ?>
+                        </select>                        
+                        <button class="btn btn-md btn-danger center-block" type="submit" name="modify">Reset life!</button>
+                    </form>
+                </div>
+            </div>
+
             <div class="row border p-3">
                 <div class="form-group col-md-6 offset-md-3">
                     <form method="POST" action="fight.php">

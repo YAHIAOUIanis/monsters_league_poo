@@ -2,6 +2,46 @@
 require __DIR__ . '/monster.php';
 
 /**
+ * récupérer les données stockées sur la base de données 
+ */
+function getMonstersObjet_BDD()
+{    
+    try{
+        //dbname : database name
+        $bdd = new PDO('mysql:host=localhost;dbname=monsters_phpoo;charset=utf8', 'root', 'newPass');
+    }
+    catch (Exception $e){
+        die('Erreur : ' . $e->getMessage());
+    }
+    $reponse = $bdd->query('SELECT * FROM monsters');
+    $monstersAux = array();    
+    foreach ($reponse->fetchAll() as $monster) {
+        $monstersAux[] = new Monster($monster['name'],$monster['strength'],$monster['life'],$monster['type']);
+    }
+    return $monstersAux;
+}
+
+/**
+ * initialiser l'âge du monster à 0
+ * @param $name le nom de monster à initialiser son âge
+ */
+function resetLife($name)
+{
+    if(isset($_POST['modify'])){
+        try {
+            $bdo = new PDO('mysql:host=localhost;dbname=monsters_phpoo;charset=utf8', 'root', 'newPass');
+            //préparer la requête
+            $query=$bdo->prepare("UPDATE `monsters` SET `life`='0' where `name`=?");
+            //exécuter la requête préparée
+            $query->execute(array($name));    
+        }
+        catch(Exception $e ) {
+            die('Erreur : ' . $e->getMessage());
+        }    
+    }     
+}
+
+/**
  * transforme le tableau de tableaux de monstre en un tableau d'objet monstre
  */
 function getMonstersObjet()
@@ -13,7 +53,6 @@ function getMonstersObjet()
     }
     return $monstersAux;
 }
-
 
 function getMonsters()
 {
